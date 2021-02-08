@@ -1,5 +1,7 @@
 ### Maven ###
-target/
+/target/*
+### Include Hibernate static metadata
+!/target/generated-sources
 pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.versionsBackup
@@ -10,9 +12,6 @@ buildNumber.properties
 .mvn/timing.properties
 # https://github.com/takari/maven-wrapper#usage-without-binary-jar
 .mvn/wrapper/maven-wrapper.jar
-
-### Include Hibernate static metadata
-!target/generated-sources
 
 ### IntelliJ IDEA ###
 **/.idea
