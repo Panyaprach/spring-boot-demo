@@ -28,9 +28,6 @@ import static org.springframework.security.core.context.SecurityContextHolder.MO
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public static final String ANONYMOUS_REALM = "anonymous";
 
-//    @Autowired
-//    private HeaderAuthenticationProvider authenticationProvider;
-
     @Bean
     public InitializingBean initializingBean() {
         return () -> SecurityContextHolder.setStrategyName(MODE_INHERITABLETHREADLOCAL);
