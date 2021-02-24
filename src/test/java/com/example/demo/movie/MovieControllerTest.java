@@ -1,17 +1,18 @@
 package com.example.demo.movie;
 
-import com.example.demo.config.SecurityConfiguration;
 import com.example.demo.model.Category;
 import com.example.demo.model.Movie;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -25,11 +26,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(MovieController.class)
+@WebMvcTest(value = MovieController.class,
+        excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class),
+        excludeAutoConfiguration = SecurityAutoConfiguration.class)
 @ExtendWith(SpringExtension.class)
-@Import({
-        SecurityConfiguration.class
-})
 class MovieControllerTest {
 
     @Autowired
@@ -38,7 +38,6 @@ class MovieControllerTest {
     MovieService service;
 
     @Test
-    @WithMockUser("Susan")
     public void whenGetById_thenSuccess() throws Exception {
         Movie fiftyShadesOfGrey = Movie.builder()
                 .withId("1")
@@ -58,7 +57,6 @@ class MovieControllerTest {
     }
 
     @Test
-    @WithMockUser("Susan")
     public void whenGetAll_thenSuccess() throws Exception {
         Movie fiftyShadesOfGrey = Movie.builder()
                 .withId("1")

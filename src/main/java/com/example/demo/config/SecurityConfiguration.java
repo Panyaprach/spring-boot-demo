@@ -1,19 +1,20 @@
 package com.example.demo.config;
 
-import com.example.demo.security.APIAccessDeniedHandler;
-import com.example.demo.security.APIAuthenticationEntryPoint;
-import com.example.demo.security.HeaderAuthenticationFilter;
-import com.example.demo.security.HeaderAuthenticationProvider;
+import com.example.demo.security.*;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
@@ -25,12 +26,23 @@ import static org.springframework.security.core.context.SecurityContextHolder.MO
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(securedEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public static final String ANONYMOUS_REALM = "anonymous";
 
     @Bean
     public InitializingBean initializingBean() {
         return () -> SecurityContextHolder.setStrategyName(MODE_INHERITABLETHREADLOCAL);
+    }
+
+    @Bean
+    public UserDetailsService userDetailsService() {
+        return new APIUserDetailsService();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
     @Bean
@@ -72,8 +84,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         // All endpoints requires authenticate
-        http.authorizeRequests().anyRequest().authenticated()
-                .and().httpBasic();
+        http.httpBasic()
+                .and().authorizeRequests().anyRequest().authenticated();
 
         // Add Header authentication filter
         http.addFilterAt(new HeaderAuthenticationFilter(), BasicAuthenticationFilter.class);
@@ -87,5 +99,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(new HeaderAuthenticationProvider());
+        auth.userDetailsService(userDetailsService())
+                .passwordEncoder(passwordEncoder());
     }
 }

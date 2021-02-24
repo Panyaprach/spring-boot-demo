@@ -1,5 +1,6 @@
 package com.example.demo.security;
 
+import com.example.demo.model.Role;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -8,7 +9,7 @@ import java.io.Serializable;
 import java.util.Collections;
 
 public class UserToken extends AbstractAuthenticationToken implements Serializable {
-    public static final GrantedAuthority DEFAULT_ROLE = new SimpleGrantedAuthority("USER");
+    public static final GrantedAuthority DEFAULT_ROLE = new SimpleGrantedAuthority(Role.USER);
 
     private final String header;
 
