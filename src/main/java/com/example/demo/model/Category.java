@@ -17,7 +17,7 @@ public enum Category {
     MUSIC("M"),
     TECHNOLOGY("T");
 
-    private String code;
+    private final String code;
 
     Category(String code) {
         this.code = code;

@@ -20,19 +20,10 @@ import static org.mockito.Mockito.when;
 @ExtendWith(SpringExtension.class)
 class MovieServiceTest {
 
-    @TestConfiguration
-    static class MovieServiceImplTestContextConfiguration {
-
-        @Bean
-        public MovieService movieService() {
-            return new MovieServiceImpl();
-        }
-    }
-
-    @Autowired
-    private MovieService service;
     @MockBean
     MovieRepository repository;
+    @Autowired
+    private MovieService service;
 
     @Test
     public void whenFindById_thenFound() {
@@ -45,5 +36,14 @@ class MovieServiceTest {
 
         Movie found = service.findById(fiftyShadesOfGrey.getId());
         assertThat(found.getId(), is(fiftyShadesOfGrey.getId()));
+    }
+
+    @TestConfiguration
+    static class MovieServiceImplTestContextConfiguration {
+
+        @Bean
+        public MovieService movieService() {
+            return new MovieServiceImpl();
+        }
     }
 }

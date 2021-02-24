@@ -1,6 +1,7 @@
 package com.example.demo.movie;
 
 import com.example.demo.DemoApplication;
+import com.example.demo.config.SecurityConfiguration;
 import com.example.demo.extension.SpringPrintSqlExtension;
 import com.example.demo.model.Category;
 import com.example.demo.model.Movie;
@@ -11,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.is;
@@ -26,6 +29,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase
 @SpringBootTest(webEnvironment = RANDOM_PORT, classes = DemoApplication.class)
+@Import({
+        SecurityConfiguration.class
+})
 public class MovieControllerIntegrationTest {
     @Autowired
     private MockMvc mvc;
@@ -38,6 +44,7 @@ public class MovieControllerIntegrationTest {
     }
 
     @Test
+    @WithMockUser("Jame")
     public void givenExistId_whenGetById_thenSuccess() throws Exception {
         Movie demonSlayer = createTestMovie("Demon Slayer", Category.ANIMATION);
         assertNotNull(demonSlayer.getId(), "Movie id is not generated!");
@@ -55,6 +62,7 @@ public class MovieControllerIntegrationTest {
     }
 
     @Test
+    @WithMockUser("Tanny")
     public void givenNonExistId_whenGetById_thenNotFound() throws Exception {
         final String pathWithId = String.join("/", MovieController.PATH, "crazy");
 
@@ -70,13 +78,14 @@ public class MovieControllerIntegrationTest {
     }
 
     @Test
+    @WithMockUser("John")
     public void givenInvalidCategory_whenGetAll_shouldHandled() throws Exception {
         String invalidCategory = "crazy";
 
         mvc.perform(get(MovieController.PATH + "?category={0}", invalidCategory)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().isBadRequest());
     }
 
     private Movie createTestMovie(String name, Category category) {

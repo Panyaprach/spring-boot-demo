@@ -36,7 +36,7 @@ public class Identity {
 
     @Column(name = "permission_id")
     @ElementCollection(targetClass = Permission.class)
-    @CollectionTable( joinColumns = @JoinColumn(name = "identity_id"))
+    @CollectionTable(joinColumns = @JoinColumn(name = "identity_id"))
     private List<Permission> permissions;
 
     @CreatedBy

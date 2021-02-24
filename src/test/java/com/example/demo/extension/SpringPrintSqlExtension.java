@@ -14,7 +14,7 @@ public class SpringPrintSqlExtension implements TestInstancePostProcessor {
         enable(SPRING_JPA_HIBERNATE_SQL_FORMAT);
     }
 
-    private void enable(String property){
+    private void enable(String property) {
         final String enable = "true";
 
         System.setProperty(property, enable);
