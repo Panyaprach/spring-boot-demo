@@ -11,7 +11,7 @@ import org.springframework.web.util.UrlPathHelper;
 import javax.servlet.http.HttpServletRequest;
 
 @ControllerAdvice
-public class RestExceptionHandler {
+public class RestExceptionHandlerControllerAdvice {
     private final UrlPathHelper urlPathHelper = new UrlPathHelper();
 
     @ExceptionHandler(ResourceNotFoundException.class)
