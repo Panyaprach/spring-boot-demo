@@ -52,7 +52,7 @@ public class MovieControllerIntegrationTest {
         final String pathWithId = String.join("/", MovieController.PATH, demonSlayer.getId());
 
         mvc.perform(get(pathWithId)
-                .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -67,7 +67,7 @@ public class MovieControllerIntegrationTest {
         final String pathWithId = String.join("/", MovieController.PATH, "crazy");
 
         mvc.perform(get(pathWithId)
-                .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -83,7 +83,7 @@ public class MovieControllerIntegrationTest {
         String invalidCategory = "crazy";
 
         mvc.perform(get(MovieController.PATH + "?category={0}", invalidCategory)
-                .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isBadRequest());
     }

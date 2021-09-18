@@ -49,7 +49,7 @@ class MovieControllerTest {
 
         final String path = String.join("/", MovieController.PATH, fiftyShadesOfGrey.getId());
         mvc.perform(get(path)
-                .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -70,7 +70,7 @@ class MovieControllerTest {
         when(service.findAll(any())).thenReturn(List.of(fiftyShadesOfGrey, demonSlayer));
 
         mvc.perform(get(MovieController.PATH)
-                .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

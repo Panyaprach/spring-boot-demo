@@ -4,6 +4,10 @@ logging:
     org:
       springframework: INFO
       web.filter.CommonsRequestLoggingFilter: DEBUG
+    com:
+      zaxxer:
+        hikari: info
+        hikari.HikariConfig: info
 
 spring:
   #  datasource:
