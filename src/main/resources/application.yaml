@@ -2,12 +2,12 @@
 logging:
   level:
     org:
-      springframework: INFO
-      web.filter.CommonsRequestLoggingFilter: DEBUG
+      springframework: info
+      web.filter.CommonsRequestLoggingFilter: debug
     com:
       zaxxer:
-        hikari: info
-        hikari.HikariConfig: info
+        hikari: trace
+        hikari.HikariConfig: debug
 
 spring:
   #  datasource:
