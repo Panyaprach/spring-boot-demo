@@ -34,6 +34,14 @@ public class MovieServiceImpl implements MovieService {
         return repository.findAll(spec);
     }
 
+    public Movie update(Movie movie) {
+        if (!repository.existsById(movie.getId())) {
+            throw new ResourceNotFoundException();
+        }
+
+        return repository.save(movie);
+    }
+
     public void deleteById(String id) {
         Movie movie = repository.findById(id)
                 .orElseThrow(ResourceNotFoundException::new);

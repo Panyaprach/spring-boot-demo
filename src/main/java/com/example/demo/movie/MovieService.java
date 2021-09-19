@@ -13,5 +13,7 @@ public interface MovieService {
 
     List<Movie> findAll(MovieCriteria criteria);
 
+    Movie update(Movie movie);
+
     void deleteById(String id);
 }
