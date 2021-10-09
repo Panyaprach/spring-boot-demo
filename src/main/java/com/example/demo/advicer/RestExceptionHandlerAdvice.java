@@ -12,11 +12,11 @@ import org.springframework.web.util.UrlPathHelper;
 import javax.servlet.http.HttpServletRequest;
 
 @ControllerAdvice
-public class RestExceptionHandlerControllerAdvice {
+public class RestExceptionHandlerAdvice {
     private final UrlPathHelper urlPathHelper = new UrlPathHelper();
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<?> handleResourceNotFound(ResourceNotFoundException ex, HttpServletRequest request) throws Exception {
+    public ResponseEntity<?> handleResourceNotFound(ResourceNotFoundException ex, HttpServletRequest request) {
         String reason = HttpStatus.BAD_REQUEST.getReasonPhrase();
         int status = HttpStatus.BAD_REQUEST.value();
         String path = urlPathHelper.getPathWithinApplication(request);
@@ -34,7 +34,7 @@ public class RestExceptionHandlerControllerAdvice {
     }
 
     @ExceptionHandler(ImmutableChangeException.class)
-    public ResponseEntity<?> handleImmutableChange(ImmutableChangeException ex, HttpServletRequest request) throws Exception {
+    public ResponseEntity<?> handleImmutableChange(ImmutableChangeException ex, HttpServletRequest request) {
         String reason = HttpStatus.BAD_REQUEST.getReasonPhrase();
         int status = HttpStatus.BAD_REQUEST.value();
         String path = urlPathHelper.getPathWithinApplication(request);

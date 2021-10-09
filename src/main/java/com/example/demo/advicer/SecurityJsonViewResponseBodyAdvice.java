@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestControllerAdvice
-public class SecurityJsonViewControllerAdvice extends AbstractMappingJacksonResponseBodyAdvice {
+public class SecurityJsonViewResponseBodyAdvice extends AbstractMappingJacksonResponseBodyAdvice {
     @Override
     protected void beforeBodyWriteInternal(MappingJacksonValue bodyContainer, MediaType mediaType, MethodParameter methodParameter, ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse) {
         if (hasAuthorities()) {
