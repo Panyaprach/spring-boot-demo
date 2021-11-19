@@ -10,7 +10,7 @@ import static org.apache.logging.log4j.util.Strings.EMPTY;
 
 @Data
 @Builder(setterPrefix = "with")
-public class RestExceptionDescriptor {
+public class ExceptionDescriptor {
     @Default
     private ZonedDateTime timestamp = ZonedDateTime.now();
 

@@ -1,6 +1,5 @@
 package com.example.demo.config;
 
-import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.health.HealthCheckRegistry;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -15,9 +14,6 @@ import javax.sql.DataSource;
 @Configuration
 public class JPAConfiguration {
     private final String HIBERNATE_DIALECT_PROPERTY = "jpa.properties.hibernate.dialect";
-
-    @Autowired
-    private MetricRegistry metricRegistry;
 
     @Autowired
     private HealthCheckRegistry healthCheckRegistry;
@@ -54,9 +50,8 @@ public class JPAConfiguration {
         config.setUsername("sa");
         config.setPassword("root");
         config.setLeakDetectionThreshold(5000);
-        config.setMetricRegistry(metricRegistry);
-        config.setHealthCheckRegistry(healthCheckRegistry);
         config.setPoolName("H2");
+        config.setHealthCheckRegistry(healthCheckRegistry);
 
         return config;
     }

@@ -1,12 +1,25 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+
 #server.error.include-stacktrace: always
 logging:
   level:
+    root: info
+
     org:
-      springframework: info
-      web.filter.CommonsRequestLoggingFilter: debug
+      springframework:
+        web.filter.CommonsRequestLoggingFilter: debug
+        security.web.access.intercept.FilterSecurityInterceptor: trace
+
     com:
       zaxxer:
-        hikari: trace
+        hikari: info
         hikari.HikariConfig: debug
 
 spring:

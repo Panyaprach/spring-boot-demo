@@ -1,6 +1,6 @@
 package com.example.demo.security;
 
-import com.example.demo.exception.RestExceptionDescriptor;
+import com.example.demo.exception.ExceptionDescriptor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,7 +28,7 @@ public class APIAccessDeniedHandler implements AccessDeniedHandler {
         int status = HttpStatus.FORBIDDEN.value();
         String path = urlPathHelper.getPathWithinApplication(request);
 
-        RestExceptionDescriptor descriptor = RestExceptionDescriptor.builder()
+        ExceptionDescriptor descriptor = ExceptionDescriptor.builder()
                 .withMessage(e.getMessage())
                 .withError(reason)
                 .withPath(path)

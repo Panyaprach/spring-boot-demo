@@ -2,7 +2,7 @@ package com.example.demo.advicer;
 
 import com.example.demo.exception.ImmutableChangeException;
 import com.example.demo.exception.ResourceNotFoundException;
-import com.example.demo.exception.RestExceptionDescriptor;
+import com.example.demo.exception.ExceptionDescriptor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -22,7 +22,7 @@ public class RestExceptionHandlerAdvice {
         String path = urlPathHelper.getPathWithinApplication(request);
         String message = ex.getMessage() == null ? "Resource is not found!" : ex.getMessage();
 
-        RestExceptionDescriptor descriptor = RestExceptionDescriptor.builder()
+        ExceptionDescriptor descriptor = ExceptionDescriptor.builder()
                 .withError(reason)
                 .withPath(path)
                 .withStatus(status)
@@ -40,7 +40,7 @@ public class RestExceptionHandlerAdvice {
         String path = urlPathHelper.getPathWithinApplication(request);
         String message = ex.getMessage() == null ? "Read-only field cannot be changed!" : ex.getMessage();
 
-        RestExceptionDescriptor descriptor = RestExceptionDescriptor.builder()
+        ExceptionDescriptor descriptor = ExceptionDescriptor.builder()
                 .withError(reason)
                 .withPath(path)
                 .withStatus(status)
