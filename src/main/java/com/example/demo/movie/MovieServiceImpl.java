@@ -28,8 +28,8 @@ public class MovieServiceImpl implements MovieService {
     }
 
     public List<Movie> findAll(MovieCriteria criteria) {
-        Specification<Movie> spec = where(criteria.getName() == null ? null : nameContains(criteria.getName()))
-                .and(criteria.getCategory() == null ? null : categoryIs(criteria.getCategory()));
+        Specification<Movie> spec = where(nameContains(criteria.getName()))
+                .and(categoryIs(criteria.getCategory()));
 
         return repository.findAll(spec);
     }

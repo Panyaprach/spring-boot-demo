@@ -33,23 +33,25 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
         Role adminRole = createRoleIfNotFound(Role.ADMIN);
         Role userRole = createRoleIfNotFound(Role.USER);
 
+        String creator = "Application";
+
         User admin = User.builder()
                 .withUsername("Admin")
                 .withPassword(passwordEncoder.encode("admin"))
                 .withRoles(Arrays.asList(adminRole))
-                .withCreatedBy("Application")
-                .withModifiedBy("Application")
-                .withCreatedAt(Instant.now())
-                .withModifiedAt(Instant.now())
+                .withCreatedBy(creator)
+                .withModifiedBy(creator)
+//                .withCreatedAt(Instant.now())
+//                .withModifiedAt(Instant.now())
                 .build();
         User john = User.builder()
                 .withUsername("John")
                 .withPassword(passwordEncoder.encode("doe"))
                 .withRoles(Arrays.asList(userRole))
-                .withCreatedBy("Application")
-                .withModifiedBy("Application")
-                .withCreatedAt(Instant.now())
-                .withModifiedAt(Instant.now())
+                .withCreatedBy(creator)
+                .withModifiedBy(creator)
+//                .withCreatedAt(Instant.now())
+//                .withModifiedAt(Instant.now())
                 .build();
         userRepository.save(admin);
         userRepository.save(john);

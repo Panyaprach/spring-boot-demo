@@ -29,9 +29,10 @@ public class Role {
     @Column(unique = true, nullable = false)
     private String name;
 
-    @ManyToMany(mappedBy = "roles")
-    private List<User> users;
-
+    /* ManyToMany map back example
+        @ManyToMany(mappedBy = "roles")
+        private List<User> users;
+    */
     public Role(String name) {
         this.name = name;
     }

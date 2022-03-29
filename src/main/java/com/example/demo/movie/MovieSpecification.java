@@ -9,11 +9,19 @@ import java.text.MessageFormat;
 
 public class MovieSpecification {
     static Specification<Movie> nameContains(String name) {
-        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.like(root.get(Movie_.NAME), contains(name));
+        if(name == null) {
+            return null;
+        }
+
+        return (root, cq, cb) -> cb.like(root.get(Movie_.NAME), contains(name));
     }
 
     static Specification<Movie> categoryIs(Category category) {
-        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get(Movie_.CATEGORY), category);
+        if(category == null) {
+            return null;
+        }
+
+        return (root, cq, cb) -> cb.equal(root.get(Movie_.CATEGORY), category);
     }
 
     private static String contains(String str) {
