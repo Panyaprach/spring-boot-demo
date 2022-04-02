@@ -8,8 +8,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import javax.sql.DataSource;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
-@SpringBootTest
+@SpringBootTest(webEnvironment = RANDOM_PORT)
 public class HikariIntegrationTest {
 
     @Autowired
