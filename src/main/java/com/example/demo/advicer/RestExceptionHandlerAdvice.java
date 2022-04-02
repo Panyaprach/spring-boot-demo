@@ -20,7 +20,7 @@ public class RestExceptionHandlerAdvice {
         String reason = HttpStatus.BAD_REQUEST.getReasonPhrase();
         int status = HttpStatus.BAD_REQUEST.value();
         String path = urlPathHelper.getPathWithinApplication(request);
-        String message = ex.getMessage() == null ? "Resource is not found!" : ex.getMessage();
+        String message = ex.getMessage();
 
         ExceptionDescriptor descriptor = ExceptionDescriptor.builder()
                 .withError(reason)

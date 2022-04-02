@@ -40,11 +40,11 @@ public class Movie {
     @JsonView(View.User.class)
     private Category category;
 
-    @ElementCollection
+    @Builder.Default
     @CollectionTable
     @Column(name = "value")
-    @Builder.Default
     @JsonView(View.User.class)
+    @ElementCollection(fetch = FetchType.EAGER)
     private List<String> tags = new ArrayList<>();
 
     @CreatedBy

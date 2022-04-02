@@ -1,5 +1,8 @@
 # All available queries on this graphql server
 type Query {
     # Get movie by id
-    movie(id: ID): Movie
+    movie(id: ID!): Movie
+
+    # Get all movie by spec
+    movies(name: String, category: Category): [Movie]
 }

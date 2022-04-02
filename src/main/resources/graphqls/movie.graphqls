@@ -4,6 +4,7 @@ type Movie {
     id: ID!
     name: String!
     category: Category!
+    tags: [String]
     createdBy: String
     createdAt: Instant
     modifiedBy: String

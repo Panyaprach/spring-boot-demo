@@ -1,0 +1,5 @@
+# All mutations available on this graphql server
+type Mutation {
+    # Create a single movie
+    movie(name: String!, category: Category!, tags: [String]): Movie!
+}

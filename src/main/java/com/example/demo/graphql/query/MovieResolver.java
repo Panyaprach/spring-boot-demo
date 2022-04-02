@@ -1,10 +1,14 @@
-package com.example.demo.graphql;
+package com.example.demo.graphql.query;
 
+import com.example.demo.model.Category;
 import com.example.demo.model.Movie;
+import com.example.demo.movie.MovieCriteria;
 import com.example.demo.movie.MovieService;
 import graphql.kickstart.tools.GraphQLQueryResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class MovieResolver implements GraphQLQueryResolver {
@@ -14,5 +18,14 @@ public class MovieResolver implements GraphQLQueryResolver {
     // Signature and name must match graphql query schemas
     public Movie movie(String id) {
         return service.findById(id);
+    }
+
+    public List<Movie> movies(String name, Category category) {
+        MovieCriteria criteria = MovieCriteria.builder()
+                .name(name)
+                .category(category)
+                .build();
+        List<Movie> movies = service.findAll(criteria);
+        return movies;
     }
 }
