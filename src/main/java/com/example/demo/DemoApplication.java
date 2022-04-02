@@ -15,13 +15,13 @@ public class DemoApplication implements WebMvcConfigurer {
     @Lazy
     private RateLimitInterceptor rateLimiter;
 
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        //registry.addInterceptor(rateLimiter);
-    }
-
     public static void main(String[] args) {
         SpringApplication.run(DemoApplication.class, args);
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(rateLimiter);
     }
 
 }
