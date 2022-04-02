@@ -1,0 +1,17 @@
+enum Category {
+    ACTION
+    ANIMATION
+    ADVENTURE
+    CRIME
+    COMEDY
+    DRAMA
+    DOCUMENTARIES
+    EROTIC
+    FAMILY
+    FANTASY
+    GENRE
+    ROMANTIC
+    SCI_FI
+    MUSIC
+    TECHNOLOGY
+}

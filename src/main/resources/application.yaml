@@ -43,3 +43,13 @@ spring:
       ddl-auto: create
 
     show-sql: false
+
+graphql:
+  playground:
+    mapping: /playground
+    endpoint: /graphql
+    subscriptionEndpoint: /subscriptions
+    enabled: true
+    pageTitle: Playground
+    headers:
+      Authorization: "Basic <your-token>"

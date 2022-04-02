@@ -1,7 +1,10 @@
 package com.example.demo;
 
+import com.example.demo.model.Category;
+import com.example.demo.model.Movie;
 import com.example.demo.model.Role;
 import com.example.demo.model.User;
+import com.example.demo.movie.MovieRepository;
 import com.example.demo.user.RoleRepository;
 import com.example.demo.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,13 +26,21 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
     @Autowired
     private RoleRepository roleRepository;
     @Autowired
+    private MovieRepository movieRepository;
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
         if (alreadySetup)
             return;
+        createDefaultUsers();
+        createSampleMovie();
 
+        alreadySetup = true;
+    }
+
+    private void createDefaultUsers() {
         Role adminRole = createRoleIfNotFound(Role.ADMIN);
         Role userRole = createRoleIfNotFound(Role.USER);
 
@@ -41,8 +52,8 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
                 .withRoles(Arrays.asList(adminRole))
                 .withCreatedBy(creator)
                 .withModifiedBy(creator)
-//                .withCreatedAt(Instant.now())
-//                .withModifiedAt(Instant.now())
+                .withCreatedAt(Instant.now())
+                .withModifiedAt(Instant.now())
                 .build();
         User john = User.builder()
                 .withUsername("John")
@@ -50,13 +61,27 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
                 .withRoles(Arrays.asList(userRole))
                 .withCreatedBy(creator)
                 .withModifiedBy(creator)
-//                .withCreatedAt(Instant.now())
-//                .withModifiedAt(Instant.now())
+                .withCreatedAt(Instant.now())
+                .withModifiedAt(Instant.now())
                 .build();
         userRepository.save(admin);
         userRepository.save(john);
+    }
 
-        alreadySetup = true;
+    private void createSampleMovie() {
+        String creator = "Application";
+
+        Movie fiftyShadesOfGrey = Movie.builder()
+                .withId("1")
+                .withName("Fifty Shades of Grey")
+                .withCategory(Category.EROTIC)
+                .withCreatedAt(Instant.now())
+                .withCreatedBy(creator)
+                .withModifiedAt(Instant.now())
+                .withModifiedBy(creator)
+                .build();
+
+        movieRepository.save(fiftyShadesOfGrey);
     }
 
     @Transactional

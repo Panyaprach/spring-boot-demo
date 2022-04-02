@@ -84,10 +84,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         // Enable CORS and disable CSRF
         http.cors().and().csrf().disable();
 
-        // All endpoints requires authenticate
-        http.httpBasic().and().anonymous()
+        // Endpoints requires authenticate
+        http.httpBasic()
+                .and().anonymous()
                 .and().authorizeRequests()
                 .requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll()
+                .antMatchers("/playground", "/vendor/*/**").permitAll()
+                .antMatchers("/graphql").authenticated()
                 .anyRequest().authenticated();
 
         // Add Header authentication filter

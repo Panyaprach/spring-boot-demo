@@ -1,0 +1,11 @@
+scalar Instant
+
+type Movie {
+    id: ID!
+    name: String!
+    category: Category!
+    createdBy: String
+    createdAt: Instant
+    modifiedBy: String
+    modifiedAt: Instant
+}

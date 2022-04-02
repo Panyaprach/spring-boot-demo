@@ -1,0 +1,5 @@
+# All available queries on this graphql server
+type Query {
+    # Get movie by id
+    movie(id: ID): Movie
+}
