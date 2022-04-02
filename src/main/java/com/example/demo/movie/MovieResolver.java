@@ -1,6 +1,5 @@
 package com.example.demo.movie;
 
-import com.example.demo.model.Category;
 import com.example.demo.model.Movie;
 import graphql.kickstart.tools.GraphQLQueryResolver;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +17,12 @@ public class MovieResolver implements GraphQLQueryResolver {
         return service.findById(id);
     }
 
-    public List<Movie> movies(String name, Category category) {
-        MovieCriteria criteria = MovieCriteria.builder()
-                .name(name)
-                .category(category)
-                .build();
+    public List<Movie> movies(MovieCriteria criteria) {
+        if (criteria == null)
+            criteria = new MovieCriteria();
+
         List<Movie> movies = service.findAll(criteria);
+
         return movies;
     }
 }

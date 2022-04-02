@@ -18,8 +18,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import static com.example.demo.movie.MovieSpecification.categoryIs;
-import static com.example.demo.movie.MovieSpecification.nameContains;
+import static com.example.demo.movie.MovieSpecification.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -42,10 +41,13 @@ class MovieRepositoryTest {
         loveSiren = Movie.builder().withName("Love Siren")
                 .withCategory(Category.ROMANTIC).build();
         venom = Movie.builder().withName("Venom")
+                .withTags(List.of("epic"))
                 .withCategory(Category.FANTASY).build();
         aquaman = Movie.builder().withName("Aquaman")
+                .withTags(List.of("epic"))
                 .withCategory(Category.FANTASY).build();
         avenger = Movie.builder().withName("Avenger")
+                .withTags(List.of("epic", "best-seller"))
                 .withCategory(Category.FANTASY).build();
 
         persistAll(loveSiren, venom, aquaman, avenger);
@@ -91,6 +93,18 @@ class MovieRepositoryTest {
         Optional<Movie> result = repository.findById(venom.getId());
         assertTrue(result.isPresent());
         assertThat(result.get(), is(venom));
+    }
+
+    @Test
+    public void whenFindAll_withTagsContain_thenCorrect() {
+        List<Movie> result = repository.findAll(where(tagsContains("best-seller")));
+
+        assertThat(result, hasSize(1));
+        assertThat(result, contains(avenger));
+
+        result = repository.findAll(where(tagsContains("epic")));
+        assertThat(result, hasSize(3));
+        assertThat(result, containsInAnyOrder(avenger, venom, aquaman));
     }
 
     @Test

@@ -8,8 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.example.demo.movie.MovieSpecification.categoryIs;
-import static com.example.demo.movie.MovieSpecification.nameContains;
+import static com.example.demo.movie.MovieSpecification.*;
 import static org.springframework.data.jpa.domain.Specification.where;
 
 @Service
@@ -29,7 +28,8 @@ public class MovieServiceImpl implements MovieService {
 
     public List<Movie> findAll(MovieCriteria criteria) {
         Specification<Movie> spec = where(nameContains(criteria.getName()))
-                .and(categoryIs(criteria.getCategory()));
+                .and(categoryIs(criteria.getCategory()))
+                .and(tagsContains(criteria.getTag()));
 
         return repository.findAll(spec);
     }

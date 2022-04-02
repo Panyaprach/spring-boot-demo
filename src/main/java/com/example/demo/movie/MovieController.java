@@ -1,6 +1,6 @@
 package com.example.demo.movie;
 
-import com.example.demo.exception.ImmutableChangeException;
+import com.example.demo.exception.UnmodifiedException;
 import com.example.demo.model.Movie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -44,7 +44,7 @@ public class MovieController {
     @PutMapping("{id}")
     public ResponseEntity<?> updateMovie(@PathVariable("id") String id, @RequestBody Movie movie) {
         if (!movie.getId().equals(id)) {
-            throw new ImmutableChangeException("'id' property cannot change!");
+            throw new UnmodifiedException("'id' property cannot change!");
         }
 
         movie = service.update(movie);

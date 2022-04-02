@@ -13,4 +13,5 @@ import lombok.NoArgsConstructor;
 public class MovieCriteria {
     private String name;
     private Category category;
+    private String tag;
 }

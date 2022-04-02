@@ -4,5 +4,5 @@ type Query {
     movie(id: ID!): Movie
 
     # Get all movie by spec
-    movies(name: String, category: Category): [Movie]
+    movies(criteria: MovieCriteria): [Movie]
 }

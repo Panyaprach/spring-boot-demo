@@ -10,3 +10,9 @@ type Movie {
     modifiedBy: String
     modifiedAt: Instant
 }
+
+input MovieCriteria {
+    name: String
+    category: Category
+    tag: String
+}
