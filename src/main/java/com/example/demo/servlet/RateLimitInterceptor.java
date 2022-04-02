@@ -12,16 +12,14 @@ import org.springframework.web.util.UrlPathHelper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.PrintWriter;
 import java.time.Duration;
-import java.util.concurrent.TimeUnit;
 
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 @Component
 public class RateLimitInterceptor implements HandlerInterceptor {
 
-    private Bucket bucket;
+    private final Bucket bucket;
     @Autowired
     private ObjectMapper mapper;
 

@@ -7,7 +7,7 @@ management:
     health:
       show-details: always
 springdoc:
-#  use-management-port: true
+  #  use-management-port: true
   show-actuator: true
 
 #server.error.include-stacktrace: always

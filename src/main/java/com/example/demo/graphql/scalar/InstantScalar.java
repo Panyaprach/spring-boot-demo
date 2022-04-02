@@ -30,7 +30,7 @@ public class InstantScalar {
             @Override
             public String serialize(@NotNull Object input) throws CoercingSerializeException {
                 Instant val;
-                if(input instanceof Instant) {
+                if (input instanceof Instant) {
                     val = (Instant) input;
                 } else if (input instanceof String) {
                     val = parseInstant(input.toString(), CoercingSerializeException::new);
@@ -46,9 +46,10 @@ public class InstantScalar {
             }
 
             @Override
-            public @NotNull Instant parseValue(@NotNull Object input) throws CoercingParseValueException {
+            public @NotNull
+            Instant parseValue(@NotNull Object input) throws CoercingParseValueException {
                 Instant val;
-                if(input instanceof Instant) {
+                if (input instanceof Instant) {
                     val = (Instant) input;
                 } else if (input instanceof String) {
                     val = Instant.parse(input.toString());
@@ -60,8 +61,9 @@ public class InstantScalar {
             }
 
             @Override
-            public @NotNull Instant parseLiteral(@NotNull Object input) throws CoercingParseLiteralException {
-                if(!(input instanceof StringValue)) {
+            public @NotNull
+            Instant parseLiteral(@NotNull Object input) throws CoercingParseLiteralException {
+                if (!(input instanceof StringValue)) {
                     throw new CoercingParseLiteralException("Expected AST type 'StringValue' but was '" + typeName(input) + "'.");
                 } else {
                     return parseInstant(((StringValue) input).getValue(), CoercingParseLiteralException::new);

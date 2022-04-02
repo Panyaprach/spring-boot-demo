@@ -50,7 +50,7 @@ class MovieServiceTest {
 
         when(repository.existsById(fiftyShadesOfGrey.getId())).thenReturn(false);
 
-        assertThrows(ResourceNotFoundException.class,() -> service.update(fiftyShadesOfGrey));
+        assertThrows(ResourceNotFoundException.class, () -> service.update(fiftyShadesOfGrey));
     }
 
     @Test

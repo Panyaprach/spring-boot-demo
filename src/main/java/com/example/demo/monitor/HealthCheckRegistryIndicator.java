@@ -1,11 +1,11 @@
 package com.example.demo.monitor;
 
+import com.codahale.metrics.health.HealthCheck.Result;
 import com.codahale.metrics.health.HealthCheckRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;
 import org.springframework.stereotype.Component;
-import com.codahale.metrics.health.HealthCheck.Result;
 
 import java.util.Map;
 import java.util.Map.Entry;

@@ -1,9 +1,7 @@
-package com.example.demo.graphql.query;
+package com.example.demo.movie;
 
 import com.example.demo.model.Category;
 import com.example.demo.model.Movie;
-import com.example.demo.movie.MovieCriteria;
-import com.example.demo.movie.MovieService;
 import graphql.kickstart.tools.GraphQLQueryResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

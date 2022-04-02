@@ -14,11 +14,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.AbstractMappingJacksonResponseBodyAdvice;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -58,19 +55,19 @@ public class SecurityJsonViewResponseBodyAdvice extends AbstractMappingJacksonRe
 
     public boolean isJsonViewPresentInherited(Class<?> type) {
         while (type != null) {
-            if(type.isAnnotationPresent(JsonView.class)) {
+            if (type.isAnnotationPresent(JsonView.class)) {
                 return true;
             }
 
             // Check all method
-            for (Method method: type.getDeclaredMethods()) {
-                if(method.isAnnotationPresent(JsonView.class)) {
+            for (Method method : type.getDeclaredMethods()) {
+                if (method.isAnnotationPresent(JsonView.class)) {
                     return true;
                 }
             }
             // Check all field
-            for(Field field: type.getDeclaredFields()){
-                if(field.isAnnotationPresent(JsonView.class)) {
+            for (Field field : type.getDeclaredFields()) {
+                if (field.isAnnotationPresent(JsonView.class)) {
                     return true;
                 }
             }

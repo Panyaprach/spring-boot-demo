@@ -9,7 +9,7 @@ import java.text.MessageFormat;
 
 public class MovieSpecification {
     static Specification<Movie> nameContains(String name) {
-        if(name == null) {
+        if (name == null) {
             return null;
         }
 
@@ -17,7 +17,7 @@ public class MovieSpecification {
     }
 
     static Specification<Movie> categoryIs(Category category) {
-        if(category == null) {
+        if (category == null) {
             return null;
         }
 
