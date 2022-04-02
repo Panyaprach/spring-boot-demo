@@ -16,7 +16,7 @@ public class HikariIntegrationTest {
     DataSource dataSource;
 
     @Test
-    public void whenGetDataSource_thenHikari() {
+    public void whenGetDataSource_shouldUseHikari() {
         assertTrue(dataSource instanceof HikariDataSource);
     }
 }
