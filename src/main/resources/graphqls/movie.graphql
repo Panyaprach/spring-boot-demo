@@ -11,6 +11,12 @@ type Movie {
     modifiedAt: Instant
 }
 
+input MovieInput {
+    name: String!
+    category: Category!
+    tags: [String]
+}
+
 input MovieCriteria {
     name: String
     category: Category

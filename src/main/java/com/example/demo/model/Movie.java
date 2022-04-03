@@ -14,6 +14,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,10 +34,12 @@ public class Movie {
     @JsonView(View.User.class)
     private String id;
 
+    @NotNull
     @JsonView(View.User.class)
     @Column(nullable = false, length = 100)
     private String name;
 
+    @NotNull
     @JsonView(View.User.class)
     private Category category;
 

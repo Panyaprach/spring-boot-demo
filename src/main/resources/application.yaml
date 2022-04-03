@@ -45,6 +45,8 @@ spring:
       ddl-auto: create
 
 graphql:
+  tools:
+    schema-location-pattern: "**/*.graphql"
   playground:
     mapping: /playground
     endpoint: /graphql

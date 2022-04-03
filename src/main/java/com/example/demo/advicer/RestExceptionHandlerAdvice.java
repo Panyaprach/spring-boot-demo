@@ -10,20 +10,35 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.util.UrlPathHelper;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolationException;
+import java.util.stream.Collectors;
 
 @ControllerAdvice
 public final class RestExceptionHandlerAdvice {
     private final UrlPathHelper urlPathHelper = new UrlPathHelper();
 
+    @ExceptionHandler(ConstraintViolationException.class)
+    private ResponseEntity<?> handleConstraintViolation(ConstraintViolationException ex, HttpServletRequest request) {
+        String message = ex.getConstraintViolations()
+                .stream()
+                .map(cv -> String.join(" ", cv.getPropertyPath().toString(), cv.getMessage()))
+                .collect(Collectors.joining(", "));
+
+        return handleBadRequest(request, message);
+    }
+
     @ExceptionHandler({
             ResourceNotFoundException.class,
             UnmodifiedException.class
     })
-    private ResponseEntity<?> handleBadRequest(Exception ex, HttpServletRequest request) {
+    private ResponseEntity<?> handleClientError(Exception ex, HttpServletRequest request) {
+        return handleBadRequest(request, ex.getMessage());
+    }
+
+    private ResponseEntity<?> handleBadRequest(HttpServletRequest request, String message) {
         String reason = HttpStatus.BAD_REQUEST.getReasonPhrase();
         int status = HttpStatus.BAD_REQUEST.value();
         String path = urlPathHelper.getPathWithinApplication(request);
-        String message = ex.getMessage();
 
         ExceptionDescriptor descriptor = ExceptionDescriptor.builder()
                 .withError(reason)
@@ -35,4 +50,5 @@ public final class RestExceptionHandlerAdvice {
         return ResponseEntity.badRequest()
                 .body(descriptor);
     }
+
 }
