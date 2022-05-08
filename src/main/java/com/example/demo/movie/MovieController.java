@@ -3,6 +3,9 @@ package com.example.demo.movie;
 import com.example.demo.exception.UnmodifiedException;
 import com.example.demo.model.Movie;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,10 +31,10 @@ public class MovieController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getMovies(MovieCriteria criteria) {
-        List<Movie> movies = service.findAll(criteria);
+    public ResponseEntity<?> getMovies(MovieCriteria criteria, @PageableDefault(size = 25) Pageable pagination) {
+        Page<Movie> movies = service.findAll(criteria, pagination);
 
-        return ResponseEntity.ok(movies);
+        return ResponseEntity.ok(movies.toList());
     }
 
     @GetMapping("{id}")

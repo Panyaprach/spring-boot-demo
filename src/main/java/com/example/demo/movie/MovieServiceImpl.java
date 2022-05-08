@@ -3,6 +3,9 @@ package com.example.demo.movie;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.Movie;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -27,11 +30,18 @@ public class MovieServiceImpl implements MovieService {
     }
 
     public List<Movie> findAll(MovieCriteria criteria) {
+        Page<Movie> movies = findAll(criteria, Pageable.unpaged());
+
+        return movies.toList();
+    }
+
+    @Override
+    public Page<Movie> findAll(MovieCriteria criteria, Pageable pagination) {
         Specification<Movie> spec = where(nameContains(criteria.getName()))
                 .and(categoryIs(criteria.getCategory()))
                 .and(tagsContains(criteria.getTag()));
 
-        return repository.findAll(spec);
+        return repository.findAll(spec, pagination);
     }
 
     public Movie update(Movie movie) {
