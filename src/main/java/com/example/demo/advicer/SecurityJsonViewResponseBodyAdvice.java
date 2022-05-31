@@ -17,6 +17,7 @@ import org.springframework.web.servlet.mvc.method.annotation.AbstractMappingJack
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,7 +32,7 @@ public class SecurityJsonViewResponseBodyAdvice extends AbstractMappingJacksonRe
 
     @Override
     protected void beforeBodyWriteInternal(MappingJacksonValue body, MediaType contentType, MethodParameter returnType, ServerHttpRequest request, ServerHttpResponse response) {
-        Class<?> bodyType = body.getValue().getClass();
+        Class<?> bodyType = identifyElementType(body.getValue());
         if (!isJsonViewPresentInherited(bodyType)) {
             log.warn("Ignoring @JsonView serialization for class {}", returnType.getContainingClass());
 
@@ -53,7 +54,7 @@ public class SecurityJsonViewResponseBodyAdvice extends AbstractMappingJacksonRe
         body.setSerializationView(jsonViews.get(0));
     }
 
-    public boolean isJsonViewPresentInherited(Class<?> type) {
+    protected boolean isJsonViewPresentInherited(Class<?> type) {
         while (type != null) {
             if (type.isAnnotationPresent(JsonView.class)) {
                 return true;
@@ -75,6 +76,17 @@ public class SecurityJsonViewResponseBodyAdvice extends AbstractMappingJacksonRe
         }
 
         return false;
+    }
+
+    protected Class<?> identifyElementType(Object value) {
+        if (value instanceof Collection) {
+            Iterator iterator = ((Collection) value).iterator();
+
+            return iterator.hasNext() ?
+                    iterator.next().getClass() : value.getClass();
+        } else {
+            return value.getClass();
+        }
     }
 
     protected boolean hasAuthorities() {
