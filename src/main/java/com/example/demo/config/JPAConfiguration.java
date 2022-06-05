@@ -13,8 +13,6 @@ import javax.sql.DataSource;
 
 @Configuration
 public class JPAConfiguration {
-    private final String HIBERNATE_DIALECT_PROPERTY = "jpa.properties.hibernate.dialect";
-
     @Autowired
     private HealthCheckRegistry healthCheckRegistry;
 
@@ -25,19 +23,13 @@ public class JPAConfiguration {
         dataSource.setUrl("jdbc:mysql://127.0.0.1:3306/demo?useSSL=false");
         dataSource.setUsername("root");
         dataSource.setPassword("root");
-        setDialect(MySQL8Dialect.class);
 
         return dataSource;
     } */
 
-    private void setDialect(Class<? extends Dialect> dialect) {
-        System.setProperty(HIBERNATE_DIALECT_PROPERTY, dialect.getName());
-    }
-
     @Bean
     public DataSource h2() {
         HikariDataSource dataSource = new HikariDataSource(hikariConfig());
-        setDialect(H2Dialect.class);
 
         return dataSource;
     }
