@@ -1,6 +1,6 @@
-package com.example.demo.model.binding;
+package com.example.demo.jpa.model.binding;
 
-import com.example.demo.model.Role;
+import com.example.demo.jpa.model.Role;
 
 import java.util.HashMap;
 import java.util.Map;

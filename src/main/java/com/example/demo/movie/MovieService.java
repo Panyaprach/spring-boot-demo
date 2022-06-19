@@ -1,6 +1,6 @@
 package com.example.demo.movie;
 
-import com.example.demo.model.Movie;
+import com.example.demo.jpa.model.Movie;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;

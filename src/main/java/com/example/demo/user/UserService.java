@@ -1,6 +1,6 @@
 package com.example.demo.user;
 
-import com.example.demo.model.User;
+import com.example.demo.jpa.model.User;
 
 import java.util.List;
 

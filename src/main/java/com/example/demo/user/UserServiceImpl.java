@@ -1,6 +1,6 @@
 package com.example.demo.user;
 
-import com.example.demo.model.User;
+import com.example.demo.jpa.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

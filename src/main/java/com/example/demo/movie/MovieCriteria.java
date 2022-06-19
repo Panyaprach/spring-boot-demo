@@ -1,6 +1,6 @@
 package com.example.demo.movie;
 
-import com.example.demo.model.Category;
+import com.example.demo.jpa.model.Category;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

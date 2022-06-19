@@ -1,4 +1,4 @@
-package com.example.demo.model;
+package com.example.demo.jpa.model;
 
 import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;

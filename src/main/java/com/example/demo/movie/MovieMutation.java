@@ -1,6 +1,6 @@
 package com.example.demo.movie;
 
-import com.example.demo.model.Movie;
+import com.example.demo.jpa.model.Movie;
 import graphql.kickstart.tools.GraphQLMutationResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

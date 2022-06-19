@@ -1,4 +1,4 @@
-package com.example.demo.model;
+package com.example.demo.jpa.model;
 
 import java.time.Instant;
 import javax.annotation.Generated;

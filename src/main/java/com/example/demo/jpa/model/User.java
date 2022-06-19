@@ -1,11 +1,6 @@
-package com.example.demo.model;
+package com.example.demo.jpa.model;
 
-import com.example.demo.model.binding.View;
-import com.fasterxml.jackson.annotation.JsonView;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -14,61 +9,80 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @Entity
+@Table(name = "users")
 @Builder(setterPrefix = "with")
-@Table(name = "movies")
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
+@ToString(exclude = "roles")
 @EntityListeners(AuditingEntityListener.class)
-public class Movie {
+public class User {
+
     @Id
+    @Column(length = 36)
     @GeneratedValue(generator = "uuid4")
     @GenericGenerator(name = "uuid4", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(length = 36)
-    @JsonView(View.User.class)
     private String id;
 
-    @NotNull
-    @JsonView(View.User.class)
+    @Column(unique = true, nullable = false, length = 100)
+    private String username;
+
     @Column(nullable = false, length = 100)
-    private String name;
+    private String password;
 
-    @NotNull
-    @JsonView(View.User.class)
-    private Category category;
-
-    @Builder.Default
-    @CollectionTable
-    @Column(name = "value")
-    @JsonView(View.User.class)
-    @ElementCollection(fetch = FetchType.EAGER)
-    private List<String> tags = new ArrayList<>();
+    @ManyToMany
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(
+                    name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "role_id", referencedColumnName = "id"))
+    private List<Role> roles;
 
     @CreatedBy
-    @JsonView(View.Admin.class)
     @Column(name = "created_by", updatable = false, nullable = false, length = 100)
     private String createdBy;
 
     @LastModifiedBy
-    @JsonView(View.Admin.class)
     @Column(name = "modified_by", nullable = false, length = 100)
     private String modifiedBy;
 
     @Basic
     @CreatedDate
-    @JsonView(View.Admin.class)
     @Column(name = "created_at", updatable = false, nullable = false)
     private Instant createdAt;
 
     @Basic
     @LastModifiedDate
-    @JsonView(View.Admin.class)
     @Column(name = "modified_at", nullable = false)
     private Instant modifiedAt;
+
+    /* Example enum mapping
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Privilege privilege;
+
+    @Column(name = "permission_id")
+    @ElementCollection(targetClass = Permission.class)
+    @CollectionTable(joinColumns = @JoinColumn(name = "identity_id"))
+    private List<Permission> permissions;
+
+    public enum Permission {
+        READ, WRITE;
+
+        public boolean canWrite() {
+            return this.equals(WRITE);
+        }
+    }
+
+    public enum Privilege {
+        SILVER, GOLD, PLATINUM
+    }
+     */
 }

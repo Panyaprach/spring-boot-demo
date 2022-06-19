@@ -1,7 +1,7 @@
 package com.example.demo.security;
 
-import com.example.demo.model.Role;
-import com.example.demo.model.User;
+import com.example.demo.jpa.model.Role;
+import com.example.demo.jpa.model.User;
 import com.example.demo.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;

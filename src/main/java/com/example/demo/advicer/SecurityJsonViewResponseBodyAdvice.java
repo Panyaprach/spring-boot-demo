@@ -1,6 +1,6 @@
 package com.example.demo.advicer;
 
-import com.example.demo.model.binding.View;
+import com.example.demo.jpa.model.binding.View;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.core.MethodParameter;

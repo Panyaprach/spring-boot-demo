@@ -1,6 +1,6 @@
-package com.example.demo.model.binding;
+package com.example.demo.jpa.model.binding;
 
-import com.example.demo.model.Category;
+import com.example.demo.jpa.model.Category;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;

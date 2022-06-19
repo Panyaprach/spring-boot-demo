@@ -1,7 +1,7 @@
 package com.example.demo.movie;
 
 import com.example.demo.exception.UnmodifiedException;
-import com.example.demo.model.Movie;
+import com.example.demo.jpa.model.Movie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.util.List;
 
 @RestController
 @RequestMapping(MovieController.PATH)

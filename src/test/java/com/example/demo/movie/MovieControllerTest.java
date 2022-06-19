@@ -1,7 +1,7 @@
 package com.example.demo.movie;
 
-import com.example.demo.model.Category;
-import com.example.demo.model.Movie;
+import com.example.demo.jpa.model.Category;
+import com.example.demo.jpa.model.Movie;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;

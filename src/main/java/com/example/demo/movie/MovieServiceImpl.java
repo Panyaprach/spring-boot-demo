@@ -1,10 +1,10 @@
 package com.example.demo.movie;
 
+import com.amazonaws.xray.spring.aop.XRayEnabled;
 import com.example.demo.exception.ResourceNotFoundException;
-import com.example.demo.model.Movie;
+import com.example.demo.jpa.model.Movie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -15,6 +15,7 @@ import static com.example.demo.movie.MovieSpecification.*;
 import static org.springframework.data.jpa.domain.Specification.where;
 
 @Service
+@XRayEnabled
 public class MovieServiceImpl implements MovieService {
 
     @Autowired
@@ -35,7 +36,6 @@ public class MovieServiceImpl implements MovieService {
         return movies.toList();
     }
 
-    @Override
     public Page<Movie> findAll(MovieCriteria criteria, Pageable pagination) {
         Specification<Movie> spec = where(nameContains(criteria.getName()))
                 .and(categoryIs(criteria.getCategory()))

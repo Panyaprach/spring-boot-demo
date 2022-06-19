@@ -1,6 +1,7 @@
 package com.example.demo.model.binding;
 
-import com.example.demo.model.Category;
+import com.example.demo.jpa.model.Category;
+import com.example.demo.jpa.model.binding.CategoryConverter;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -9,7 +10,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.stream.Stream;
 
-import static com.example.demo.model.Category.*;
+import static com.example.demo.jpa.model.Category.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CategoryConverterTest {
