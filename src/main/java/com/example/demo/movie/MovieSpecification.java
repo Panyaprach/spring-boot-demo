@@ -2,7 +2,7 @@ package com.example.demo.movie;
 
 import com.example.demo.jpa.model.Category;
 import com.example.demo.jpa.model.Movie;
-import com.example.demo.model.Movie_;
+import com.example.demo.jpa.model.Movie_;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.text.MessageFormat;
