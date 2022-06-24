@@ -7,10 +7,10 @@ import org.springframework.context.annotation.Configuration;
 import javax.servlet.Filter;
 
 @Configuration
-public class XrayConfiguration {
+public class XRayConfiguration {
 
     @Bean
-    public Filter TracingFilter() {
+    public Filter tracingFilter() {
         return new AWSXRayServletFilter("Demo");
     }
 }
