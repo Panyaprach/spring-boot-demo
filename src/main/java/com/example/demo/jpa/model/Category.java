@@ -12,7 +12,7 @@ public enum Category {
     FAMILY("Fa"),
     FANTASY("F"),
     GENRE("G"),
-    ROMANTIC("R"),
+    ROMANCE("R"),
     SCI_FI("S"),
     MUSIC("M"),
     TECHNOLOGY("T");

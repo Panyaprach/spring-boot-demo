@@ -39,7 +39,7 @@ class MovieRepositoryTest {
     @BeforeEach
     private void setup() {
         loveSiren = Movie.builder().withName("Love Siren")
-                .withCategory(Category.ROMANTIC).build();
+                .withCategory(Category.ROMANCE).build();
         venom = Movie.builder().withName("Venom")
                 .withTags(List.of("epic"))
                 .withCategory(Category.FANTASY).build();

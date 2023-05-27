@@ -33,7 +33,7 @@ spring:
 
   ## Hibernate Properties
   jpa:
-    show-sql: true
+    show-sql: false
 
     properties:
       hibernate:

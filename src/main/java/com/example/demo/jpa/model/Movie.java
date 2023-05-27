@@ -43,6 +43,9 @@ public class Movie {
     @JsonView(View.User.class)
     private Category category;
 
+    @Column
+    private Double profitability;
+
     @Builder.Default
     @CollectionTable
     @Column(name = "value")

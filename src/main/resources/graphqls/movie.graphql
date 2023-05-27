@@ -5,6 +5,7 @@ type Movie {
     name: String!
     category: Category!
     tags: [String]
+    profitability: Float
     createdBy: String
     createdAt: Instant
     modifiedBy: String

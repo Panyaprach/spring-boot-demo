@@ -10,7 +10,7 @@ enum Category {
     FAMILY
     FANTASY
     GENRE
-    ROMANTIC
+    ROMANCE
     SCI_FI
     MUSIC
     TECHNOLOGY

@@ -10,6 +10,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 @StaticMetamodel(Movie.class)
 public abstract class Movie_ {
 
+	public static volatile SingularAttribute<Movie, Double> profitability;
 	public static volatile SingularAttribute<Movie, Instant> createdAt;
 	public static volatile SingularAttribute<Movie, String> createdBy;
 	public static volatile SingularAttribute<Movie, Instant> modifiedAt;
@@ -19,6 +20,7 @@ public abstract class Movie_ {
 	public static volatile SingularAttribute<Movie, Category> category;
 	public static volatile ListAttribute<Movie, String> tags;
 
+	public static final String PROFITABILITY = "profitability";
 	public static final String CREATED_AT = "createdAt";
 	public static final String CREATED_BY = "createdBy";
 	public static final String MODIFIED_AT = "modifiedAt";

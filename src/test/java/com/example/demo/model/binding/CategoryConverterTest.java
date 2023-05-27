@@ -29,7 +29,7 @@ class CategoryConverterTest {
                 Arguments.of(FAMILY, "Fa"),
                 Arguments.of(FANTASY, "F"),
                 Arguments.of(GENRE, "G"),
-                Arguments.of(ROMANTIC, "R"),
+                Arguments.of(ROMANCE, "R"),
                 Arguments.of(SCI_FI, "S"),
                 Arguments.of(MUSIC, "M"),
                 Arguments.of(TECHNOLOGY, "T")

@@ -7,16 +7,26 @@ import com.example.demo.jpa.model.User;
 import com.example.demo.movie.MovieRepository;
 import com.example.demo.user.RoleRepository;
 import com.example.demo.user.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ResourceUtils;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.time.Instant;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 
+@Slf4j
 @Component
 public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
     boolean alreadySetup = false;
@@ -66,22 +76,57 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
                 .build();
         userRepository.save(admin);
         userRepository.save(john);
+        log.info("Registered users");
     }
 
     private void createSampleMovie() {
-        String creator = "Application";
+        try {
+            log.info("... Loading sample movies");
+            List<Movie> movies = sampleMovies();
+            movieRepository.saveAll(movies);
+        } catch (IOException e) {
+            log.error("Unable to load sample movies", e);
+        }
+    }
 
-        Movie fiftyShadesOfGrey = Movie.builder()
-                .withId("1")
-                .withName("Fifty Shades of Grey")
-                .withCategory(Category.EROTIC)
-                .withCreatedAt(Instant.now())
-                .withCreatedBy(creator)
-                .withModifiedAt(Instant.now())
-                .withModifiedBy(creator)
+    private List<Movie> sampleMovies() throws IOException {
+        File file = ResourceUtils.getFile("classpath:data/movies.csv");
+
+        return Files.readAllLines(file.toPath()).stream()
+                .skip(1)
+                .map(src -> src.split(","))
+                .map(List::of)
+                .map(this::fromCSVLine)
+                .collect(Collectors.toList());
+    }
+
+    private Movie fromCSVLine(List<String> content) {
+        String name = content.get(0);
+        String genre = content.get(1);
+        String studio = content.get(2);
+        Category category = Category.valueOf(genre.toUpperCase());
+        Double profit = Double.parseDouble(content.get(4));
+        Integer year = Integer.parseInt(content.get(content.size() - 1));
+        Instant instant = timestamp(year);
+
+        return Movie.builder()
+                .withName(name)
+                .withCategory(category)
+                .withProfitability(profit)
+                .withCreatedBy(studio)
+                .withModifiedBy(studio)
+                .withCreatedAt(instant)
+                .withModifiedAt(instant)
                 .build();
+    }
 
-        movieRepository.save(fiftyShadesOfGrey);
+    private Instant timestamp(int year) {
+        Calendar calendar = Calendar.getInstance();
+        Instant random = Instant.ofEpochSecond(ThreadLocalRandom.current().nextInt());
+        calendar.setTimeInMillis(random.toEpochMilli());
+        calendar.set(Calendar.YEAR, year);
+
+        return calendar.toInstant();
     }
 
     @Transactional
