@@ -27,7 +27,7 @@ public class BookRepository {
 
     @Data
     @AllArgsConstructor
-    public class Book {
+    public static class Book {
         private String isbn;
     }
 
