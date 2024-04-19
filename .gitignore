@@ -1,7 +1,5 @@
 ### Maven ###
 /target/*
-### Include Hibernate static metadata
-!/target/generated-sources
 pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.versionsBackup
