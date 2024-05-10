@@ -15,7 +15,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 @EnableAspectJAutoProxy
 public class AopConfiguration {
 
-    @Pointcut("within(com.example.demo.movie..*)")
+    @Pointcut("within(com.example.demo..*) && !within(is(FinalType))")
     public void monitor() {}
 
     @Bean
