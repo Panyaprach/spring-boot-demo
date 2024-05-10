@@ -19,11 +19,14 @@ logging:
       springframework:
         web.filter.CommonsRequestLoggingFilter: debug
         security.web.access.intercept.FilterSecurityInterceptor: trace
+        aop.interceptor.PerformanceMonitorInterceptor: trace
 
     com:
       zaxxer:
         hikari: info
         hikari.HikariConfig: debug
+
+
 
 spring:
   #  datasource:
