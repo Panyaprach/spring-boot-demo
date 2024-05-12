@@ -19,14 +19,12 @@ public class AopConfiguration {
     public void monitor() {}
 
     @Bean
-    public PerformanceMonitorInterceptor performanceMonitorInterceptor() {
-        return new PerformanceMonitorInterceptor(false);
-    }
-
-    @Bean
     public Advisor performanceMonitorAdvisor() {
+        PerformanceMonitorInterceptor interceptor = new PerformanceMonitorInterceptor(false);
+
         AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
         pointcut.setExpression("com.example.demo.config.AopConfiguration.monitor()");
-        return new DefaultPointcutAdvisor(pointcut, performanceMonitorInterceptor());
+
+        return new DefaultPointcutAdvisor(pointcut, interceptor);
     }
 }
