@@ -9,6 +9,7 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -18,8 +19,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Log4j2
 @RestControllerAdvice
@@ -39,19 +38,14 @@ public class SecurityJsonViewResponseBodyAdvice extends AbstractMappingJacksonRe
             return;
         }
 
-        Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-        List<Class> jsonViews = authorities.stream()
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+
+        authorities.stream()
                 .map(GrantedAuthority::getAuthority)
                 .map(View.MAPPING::get)
-                .collect(Collectors.toList());
-
-        if (jsonViews.size() != 1) {
-            throw new IllegalArgumentException("Ambiguous @JsonView mapping for roles "
-                    + authorities.stream()
-                    .map(GrantedAuthority::getAuthority).collect(Collectors.joining(",")));
-        }
-
-        body.setSerializationView(jsonViews.get(0));
+                .reduce((a, b) -> a.priority() > b.priority() ? a : b)
+                .ifPresent(view -> body.setSerializationView(view.getClass()));
     }
 
     protected boolean isJsonViewPresentInherited(Class<?> type) {

@@ -5,17 +5,29 @@ import com.example.demo.jpa.model.Role;
 import java.util.HashMap;
 import java.util.Map;
 
-public class View {
-    public static final Map<String, Class> MAPPING = new HashMap<>();
+public interface View {
+    Map<String, View> MAPPING = new HashMap<>() {
+        {
+            put(Role.ADMIN, new Admin());
+            put(Role.USER, new User());
+        }
+    };
 
-    static {
-        MAPPING.put(Role.ADMIN, Admin.class);
-        MAPPING.put(Role.USER, User.class);
+    int priority();
+
+
+    class User implements View {
+        @Override
+        public int priority() {
+            return 0;
+        }
     }
 
-    public static class User {
-    }
+    class Admin extends User {
 
-    public static class Admin extends User {
+        @Override
+        public int priority() {
+            return Integer.MAX_VALUE;
+        }
     }
 }

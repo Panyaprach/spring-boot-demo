@@ -59,7 +59,7 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
         User admin = User.builder()
                 .withUsername("Admin")
                 .withPassword(passwordEncoder.encode("admin"))
-                .withRoles(Arrays.asList(adminRole))
+                .withRoles(Arrays.asList(adminRole, userRole))
                 .withCreatedBy(creator)
                 .withModifiedBy(creator)
                 .withCreatedAt(Instant.now())
