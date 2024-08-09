@@ -2,7 +2,7 @@ package com.example.demo.graphql.scalar;
 
 import graphql.language.StringValue;
 import graphql.schema.*;
-import org.jetbrains.annotations.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.DateTimeException;
 import java.time.Instant;

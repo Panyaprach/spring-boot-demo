@@ -1,7 +1,6 @@
 package com.example.demo.movie;
 
 import com.example.demo.DemoApplication;
-import com.example.demo.config.SecurityConfiguration;
 import com.example.demo.extension.SpringPrintSqlExtension;
 import com.example.demo.jpa.model.Category;
 import com.example.demo.jpa.model.Movie;
@@ -12,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -29,9 +27,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase
 @SpringBootTest(webEnvironment = RANDOM_PORT, classes = DemoApplication.class)
-@Import({
-        SecurityConfiguration.class
-})
 public class MovieControllerIntegrationTest {
     @Autowired
     private MockMvc mvc;
@@ -39,12 +34,12 @@ public class MovieControllerIntegrationTest {
     private MovieRepository repository;
 
     @AfterEach
-    private void reset() {
+    public void reset() {
         repository.deleteAll();
     }
 
     @Test
-    @WithMockUser("Jame")
+    @WithMockUser(value = "Jame", authorities = {"USER"})
     public void givenExistId_whenGetById_thenSuccess() throws Exception {
         Movie demonSlayer = createTestMovie("Demon Slayer", Category.ANIMATION);
         assertNotNull(demonSlayer.getId(), "Movie id is not generated!");
@@ -62,7 +57,7 @@ public class MovieControllerIntegrationTest {
     }
 
     @Test
-    @WithMockUser("Tanny")
+    @WithMockUser(value = "Tanny", authorities = {"USER"})
     public void givenNonExistId_whenGetById_thenNotFound() throws Exception {
         final String pathWithId = String.join("/", MovieController.PATH, "crazy");
 
@@ -78,7 +73,7 @@ public class MovieControllerIntegrationTest {
     }
 
     @Test
-    @WithMockUser("John")
+    @WithMockUser(value = "John", authorities = {"USER"})
     public void givenInvalidCategory_whenGetAll_shouldHandled() throws Exception {
         String invalidCategory = "crazy";
 

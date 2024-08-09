@@ -1,17 +1,15 @@
 package com.example.demo.jpa.model;
 
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import javax.persistence.*;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "roles")
-@EqualsAndHashCode(exclude = "users")
-@ToString(exclude = "users")
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)

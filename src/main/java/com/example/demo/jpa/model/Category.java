@@ -1,5 +1,8 @@
 package com.example.demo.jpa.model;
 
+import lombok.Getter;
+
+@Getter
 public enum Category {
     ACTION("Ac"),
     ANIMATION("A"),
@@ -23,7 +26,4 @@ public enum Category {
         this.code = code;
     }
 
-    public String getCode() {
-        return code;
-    }
 }

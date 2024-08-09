@@ -6,9 +6,6 @@ management:
   endpoint:
     health:
       show-details: always
-springdoc:
-  #  use-management-port: true
-  show-actuator: true
 
 #server.error.include-stacktrace: always
 logging:
@@ -19,7 +16,7 @@ logging:
       springframework:
         web.filter.CommonsRequestLoggingFilter: debug
         security.web.access.intercept.FilterSecurityInterceptor: trace
-        aop.interceptor.PerformanceMonitorInterceptor: trace
+        aop.interceptor.PerformanceMonitorInterceptor: off
 
     com:
       zaxxer:
@@ -33,7 +30,9 @@ spring:
   #    url: jdbc:mysql://127.0.0.1:3306/demo?useSSL=false
   #    username: root
   #    password: root
-
+  graphql:
+    graphiql:
+      enabled: true
   ## Hibernate Properties
   jpa:
     show-sql: false
@@ -47,14 +46,14 @@ spring:
     hibernate:
       ddl-auto: create
 
-graphql:
-  tools:
-    schema-location-pattern: "**/*.graphql"
-  playground:
-    mapping: /playground
-    endpoint: /graphql
-    subscriptionEndpoint: /subscriptions
-    enabled: true
-    pageTitle: Playground
-    headers:
-      Authorization: "Basic <your-token>"
+#graphql:
+#  tools:
+#    schema-location-pattern: "**/*.graphql"
+#  playground:
+#    mapping: /playground
+#    endpoint: /graphql
+#    subscriptionEndpoint: /subscriptions
+#    enabled: true
+#    pageTitle: Playground
+#    headers:
+#      Authorization: "Basic <your-token>"

@@ -1,23 +1,25 @@
 package com.example.demo.movie;
 
 import com.example.demo.jpa.model.Movie;
-import graphql.kickstart.tools.GraphQLQueryResolver;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.SchemaMapping;
+import org.springframework.stereotype.Controller;
 
 import java.util.List;
 
-@Component
-public class MovieResolver implements GraphQLQueryResolver {
+@Controller
+public class MovieResolver {
     @Autowired
     MovieService service;
 
-    // Signature and name must match graphql query schemas
-    public Movie movie(String id) {
+    @SchemaMapping
+    public Movie movie(@Argument String id) {
         return service.findById(id);
     }
 
-    public List<Movie> movies(MovieCriteria criteria) {
+    @SchemaMapping
+    public List<Movie> movies(@Argument MovieCriteria criteria) {
         if (criteria == null)
             criteria = new MovieCriteria();
 

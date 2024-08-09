@@ -5,17 +5,16 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -26,8 +25,7 @@ import static org.springframework.security.core.context.SecurityContextHolder.MO
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(securedEnabled = true)
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+public class SecurityConfiguration {
     public static final String ANONYMOUS_REALM = "anonymous";
 
     @Bean
@@ -74,33 +72,26 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new CorsFilter(source);
     }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    @Bean
+    protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         // Enable CORS and disable CSRF
-        http.cors().and().csrf().disable();
+        jakarta.servlet.Filter filter = new HeaderAuthenticationFilter();
 
-        // Endpoints requires authenticate
-        http.httpBasic()
-                .and().anonymous()
-                .and().authorizeRequests()
-                .requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll()
-                .antMatchers("/playground", "/vendor/*/**").permitAll()
-                .antMatchers("/graphql").authenticated()
-                .anyRequest().authenticated();
+        http.cors(AbstractHttpConfigurer::disable)
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll()
+                        .requestMatchers("/graphiql").permitAll()
+                        .anyRequest().authenticated())
+                .addFilterAt(filter, BasicAuthenticationFilter.class)
+                .authenticationProvider(new HeaderAuthenticationProvider())
+                .userDetailsService(userDetailsService())
+                .exceptionHandling(handler -> handler
+                        .accessDeniedHandler(accessDeniedHandler())
+                        .authenticationEntryPoint(authenticationEntryPoint())
+                );
 
-        // Add Header authentication filter
-        http.addFilterAt(new HeaderAuthenticationFilter(), BasicAuthenticationFilter.class);
-
-        // Handling security exceptions
-        http.exceptionHandling()
-                .authenticationEntryPoint(authenticationEntryPoint())
-                .accessDeniedHandler(accessDeniedHandler());
+        return http.build();
     }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(new HeaderAuthenticationProvider());
-        auth.userDetailsService(userDetailsService())
-                .passwordEncoder(passwordEncoder());
-    }
 }

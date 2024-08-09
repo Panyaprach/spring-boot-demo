@@ -3,6 +3,8 @@ package com.example.demo.servlet;
 import com.example.demo.exception.ExceptionDescriptor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.bucket4j.*;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -10,8 +12,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.util.UrlPathHelper;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.time.Duration;
 
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
