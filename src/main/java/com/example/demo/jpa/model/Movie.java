@@ -2,6 +2,7 @@ package com.example.demo.jpa.model;
 
 import com.example.demo.jpa.model.binding.View;
 import com.fasterxml.jackson.annotation.JsonView;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,8 +14,7 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import jakarta.persistence.*;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +48,7 @@ public class Movie {
 
     @Builder.Default
     @CollectionTable
-    @Column(name = "value")
+    @Column(name = "tag")
     @JsonView(View.User.class)
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> tags = new ArrayList<>();
