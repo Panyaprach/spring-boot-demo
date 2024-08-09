@@ -2,7 +2,7 @@
 
 name: Manual workflow
 
-on: [workflow_dispatch]
+on: [ workflow_dispatch ]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -18,6 +18,12 @@ jobs:
         run: |
           sudo apt-get update -y
           sudo apt-get install tree -y
+      - name: Setup JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 17
+      - name: Show Java version
+        run: java --version
       - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
       - name: Check out repository code
         uses: actions/checkout@v2
