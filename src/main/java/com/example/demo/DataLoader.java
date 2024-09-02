@@ -104,14 +104,14 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
         String genre = content.get(1);
         String studio = content.get(2);
         Category category = Category.valueOf(genre.toUpperCase());
-        Double profit = Double.parseDouble(content.get(4));
+        Integer score = Integer.parseInt(content.get(5));
         Integer year = Integer.parseInt(content.get(content.size() - 1));
         Instant instant = timestamp(year);
 
         return Movie.builder()
                 .withName(name)
                 .withCategory(category)
-                .withProfitability(profit)
+                .withScore(score)
                 .withCreatedBy(studio)
                 .withModifiedBy(studio)
                 .withCreatedAt(instant)

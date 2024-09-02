@@ -5,7 +5,7 @@ type Movie {
     name: String!
     category: Category!
     tags: [String]
-    profitability: Float
+    score: Int
     createdBy: String
     createdAt: Instant
     modifiedBy: String
@@ -15,6 +15,7 @@ type Movie {
 input MovieInput {
     name: String!
     category: Category!
+    score: Int!
     tags: [String]
 }
 

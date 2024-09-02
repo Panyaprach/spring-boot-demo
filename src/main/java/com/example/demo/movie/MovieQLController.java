@@ -30,8 +30,8 @@ public class MovieQLController {
     }
 
     @MutationMapping
-    public Movie movie(Movie movie) {
+    public Movie movie(@Argument MovieInput input) {
 
-        return service.create(movie);
+        return service.create(input.toMovie());
     }
 }

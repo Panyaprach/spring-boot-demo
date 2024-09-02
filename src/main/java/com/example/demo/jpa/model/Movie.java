@@ -44,7 +44,7 @@ public class Movie {
     private Category category;
 
     @Column
-    private Double profitability;
+    private Integer score;
 
     @Builder.Default
     @CollectionTable
