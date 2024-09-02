@@ -20,7 +20,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.time.Instant;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -57,18 +56,18 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
         String creator = "Application";
 
         User admin = User.builder()
-                .withUsername("Admin")
+                .withUsername("admin")
                 .withPassword(passwordEncoder.encode("admin"))
-                .withRoles(Arrays.asList(adminRole, userRole))
+                .withRoles(List.of(adminRole, userRole))
                 .withCreatedBy(creator)
                 .withModifiedBy(creator)
                 .withCreatedAt(Instant.now())
                 .withModifiedAt(Instant.now())
                 .build();
         User john = User.builder()
-                .withUsername("John")
-                .withPassword(passwordEncoder.encode("doe"))
-                .withRoles(Arrays.asList(userRole))
+                .withUsername("john")
+                .withPassword(passwordEncoder.encode("john"))
+                .withRoles(List.of(userRole))
                 .withCreatedBy(creator)
                 .withModifiedBy(creator)
                 .withCreatedAt(Instant.now())

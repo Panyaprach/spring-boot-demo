@@ -1,9 +1,9 @@
 package com.example.demo.jpa.model.binding;
 
 import com.example.demo.jpa.model.Category;
-
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
+
 import java.util.stream.Stream;
 
 @Converter(autoApply = true)
