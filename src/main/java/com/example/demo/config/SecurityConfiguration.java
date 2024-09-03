@@ -1,22 +1,25 @@
 package com.example.demo.config;
 
-import com.example.demo.security.*;
+import com.example.demo.security.APIAccessDeniedHandler;
+import com.example.demo.security.APIAuthenticationEntryPoint;
+import com.example.demo.security.APIUserDetailsService;
+import com.example.demo.security.BasicAuthenticationProvider;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
@@ -27,15 +30,12 @@ import static org.springframework.security.core.context.SecurityContextHolder.MO
 @EnableWebSecurity
 public class SecurityConfiguration {
     public static final String ANONYMOUS_REALM = "anonymous";
+    @Autowired
+    APIUserDetailsService userDetailsService;
 
     @Bean
     public InitializingBean initializingBean() {
         return () -> SecurityContextHolder.setStrategyName(MODE_INHERITABLETHREADLOCAL);
-    }
-
-    @Bean
-    public UserDetailsService userDetailsService() {
-        return new APIUserDetailsService();
     }
 
     @Bean
@@ -52,6 +52,7 @@ public class SecurityConfiguration {
     public AccessDeniedHandler accessDeniedHandler() {
         return new APIAccessDeniedHandler();
     }
+
 
     @Bean
     public GrantedAuthorityDefaults grantedAuthorityDefaults() {
@@ -75,17 +76,21 @@ public class SecurityConfiguration {
     @Bean
     protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         // Enable CORS and disable CSRF
-        jakarta.servlet.Filter filter = new HeaderAuthenticationFilter();
+        BasicAuthenticationProvider authenticationProvider = new BasicAuthenticationProvider();
+        authenticationProvider.setUserDetailsService(userDetailsService);
+        authenticationProvider.setPasswordEncoder(passwordEncoder());
 
-        http.cors(AbstractHttpConfigurer::disable)
+        http
+                //.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .cors(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
+                .httpBasic(Customizer.withDefaults())
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll()
                         .requestMatchers("/graphiql").permitAll()
+                        .requestMatchers("/users/*/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
-                .addFilterAt(filter, BasicAuthenticationFilter.class)
-                .authenticationProvider(new HeaderAuthenticationProvider())
-                .userDetailsService(userDetailsService())
+                .authenticationProvider(authenticationProvider)
                 .exceptionHandling(handler -> handler
                         .accessDeniedHandler(accessDeniedHandler())
                         .authenticationEntryPoint(authenticationEntryPoint())

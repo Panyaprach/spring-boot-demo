@@ -1,10 +1,9 @@
 package com.example.demo.servlet;
 
+import jakarta.servlet.Filter;
 import jakarta.servlet.FilterConfig;
 import jakarta.servlet.ServletException;
 import lombok.extern.slf4j.Slf4j;
-
-import jakarta.servlet.Filter;
 
 @Slf4j
 public abstract class BaseFilter implements Filter {

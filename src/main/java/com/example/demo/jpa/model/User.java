@@ -1,5 +1,6 @@
 package com.example.demo.jpa.model;
 
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedBy;
@@ -8,7 +9,6 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import jakarta.persistence.*;
 import java.time.Instant;
 import java.util.List;
 
@@ -19,7 +19,6 @@ import java.util.List;
 @Builder(setterPrefix = "with")
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
 @ToString(exclude = "roles")
 @EntityListeners(AuditingEntityListener.class)
 public class User {
@@ -36,7 +35,7 @@ public class User {
     @Column(nullable = false, length = 100)
     private String password;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_roles",
             joinColumns = @JoinColumn(
