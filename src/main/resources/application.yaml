@@ -8,12 +8,14 @@ management:
       show-details: always
 
 #server.error.include-stacktrace: always
+
 logging:
   level:
     root: info
 
     org:
       springframework:
+        security: trace
         web.filter.CommonsRequestLoggingFilter: debug
         security.web.access.intercept.FilterSecurityInterceptor: trace
         aop.interceptor.PerformanceMonitorInterceptor: off
@@ -21,8 +23,7 @@ logging:
     com:
       zaxxer:
         hikari: info
-        hikari.HikariConfig: debug
-
+        hikari.HikariConfig: info
 
 
 spring:

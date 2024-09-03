@@ -20,7 +20,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.time.Instant;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -57,18 +56,18 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
         String creator = "Application";
 
         User admin = User.builder()
-                .withUsername("Admin")
+                .withUsername("admin")
                 .withPassword(passwordEncoder.encode("admin"))
-                .withRoles(Arrays.asList(adminRole, userRole))
+                .withRoles(List.of(adminRole, userRole))
                 .withCreatedBy(creator)
                 .withModifiedBy(creator)
                 .withCreatedAt(Instant.now())
                 .withModifiedAt(Instant.now())
                 .build();
         User john = User.builder()
-                .withUsername("John")
-                .withPassword(passwordEncoder.encode("doe"))
-                .withRoles(Arrays.asList(userRole))
+                .withUsername("john")
+                .withPassword(passwordEncoder.encode("john"))
+                .withRoles(List.of(userRole))
                 .withCreatedBy(creator)
                 .withModifiedBy(creator)
                 .withCreatedAt(Instant.now())
@@ -105,14 +104,14 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
         String genre = content.get(1);
         String studio = content.get(2);
         Category category = Category.valueOf(genre.toUpperCase());
-        Double profit = Double.parseDouble(content.get(4));
+        Integer score = Integer.parseInt(content.get(5));
         Integer year = Integer.parseInt(content.get(content.size() - 1));
         Instant instant = timestamp(year);
 
         return Movie.builder()
                 .withName(name)
                 .withCategory(category)
-                .withProfitability(profit)
+                .withScore(score)
                 .withCreatedBy(studio)
                 .withModifiedBy(studio)
                 .withCreatedAt(instant)
