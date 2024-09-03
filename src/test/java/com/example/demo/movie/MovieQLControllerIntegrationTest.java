@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.graphql.tester.AutoConfigureHttpGraphQlTester;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.graphql.execution.ErrorType;
 import org.springframework.graphql.test.tester.HttpGraphQlTester;
 import org.springframework.security.test.context.support.WithMockUser;
 
@@ -33,6 +34,35 @@ public class MovieQLControllerIntegrationTest {
                 .path("data.movies[*].id")
                 .entityList(String.class)
                 .hasSize(4);
+    }
+
+    @Test
+    @WithMockUser(value = "Jame", authorities = {"USER"})
+    public void givenMultiQuery_whenResolve_thenSuccess() {
+        String query = "{\n" +
+                "    dramaMovies: movies(criteria: { category: DRAMA }) { name }\n" +
+                "    comedyMovies: movies(criteria: { category: COMEDY }) { name }\n" +
+                "}";
+
+        tester.document(query)
+                .execute()
+                .path("data.dramaMovies[*].name").entityList(String.class).hasSize(13)
+                .path("data.comedyMovies[*].name").entityList(String.class).hasSize(25);
+    }
+
+    @Test
+    @WithMockUser(value = "Jame", authorities = {"USER"})
+    public void givenBadQuery_whenResolve_thenBadRequest() {
+        String query = "query Movies {\n" +
+                "        movies(page: -9, size: 200) {\n" +
+                "            name\n" +
+                "        }\n" +
+                "    }";
+
+        tester.document(query)
+                .execute()
+                .errors()
+                .expect(er -> er.getErrorType().equals(ErrorType.BAD_REQUEST));
     }
 
     @Test
