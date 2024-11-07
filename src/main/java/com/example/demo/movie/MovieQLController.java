@@ -12,8 +12,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
+import org.springframework.graphql.data.method.annotation.SubscriptionMapping;
 import org.springframework.stereotype.Controller;
+import reactor.core.publisher.Flux;
 
+import java.time.Duration;
 import java.util.List;
 
 @Controller
@@ -44,5 +47,13 @@ public class MovieQLController {
     public Movie movie(@Argument MovieInput input) {
 
         return service.create(input.toMovie());
+    }
+
+    @SubscriptionMapping("newMovie")
+    public Flux<Movie> subscribe(@Argument MovieCriteria criteria) {
+        List<Movie> movies = service.findAll(criteria);
+
+        return Flux.fromIterable(movies)
+                .delayElements(Duration.ofSeconds(1));
     }
 }

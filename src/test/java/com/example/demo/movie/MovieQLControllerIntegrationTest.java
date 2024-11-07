@@ -21,13 +21,15 @@ public class MovieQLControllerIntegrationTest {
     @Test
     @WithMockUser(value = "Jame", authorities = {"USER"})
     public void givenQuery_whenResolve_thenSuccess() {
-        String query = "query Movies {\n" +
-                "    movies(criteria: { category: ANIMATION }) {\n" +
-                "        id\n" +
-                "        name\n" +
-                "        category\n" +
-                "    }\n" +
-                "}\n";
+        String query = """
+                query Movies {
+                    movies(criteria: { category: ANIMATION }) {
+                        id
+                        name
+                        category
+                    }
+                }
+                """;
 
         tester.document(query)
                 .execute()
@@ -39,10 +41,12 @@ public class MovieQLControllerIntegrationTest {
     @Test
     @WithMockUser(value = "Jame", authorities = {"USER"})
     public void givenMultiQuery_whenResolve_thenSuccess() {
-        String query = "{\n" +
-                "    dramaMovies: movies(criteria: { category: DRAMA }) { name }\n" +
-                "    comedyMovies: movies(criteria: { category: COMEDY }) { name }\n" +
-                "}";
+        String query = """
+                {
+                    dramaMovies: movies(criteria: { category: DRAMA }) { name }
+                    comedyMovies: movies(criteria: { category: COMEDY }) { name }
+                }
+                """;
 
         tester.document(query)
                 .execute()
@@ -53,11 +57,13 @@ public class MovieQLControllerIntegrationTest {
     @Test
     @WithMockUser(value = "Jame", authorities = {"USER"})
     public void givenBadQuery_whenResolve_thenBadRequest() {
-        String query = "query Movies {\n" +
-                "        movies(page: -9, size: 200) {\n" +
-                "            name\n" +
-                "        }\n" +
-                "    }";
+        String query = """
+                query Movies {
+                    movies(page: -9, size: 200) {
+                        name
+                    }
+                }
+                """;
 
         tester.document(query)
                 .execute()
@@ -68,26 +74,28 @@ public class MovieQLControllerIntegrationTest {
     @Test
     @WithMockUser(value = "Jame", authorities = {"USER"})
     public void givenMutation_whenResolve_thenSuccess() {
-        String query = "mutation Movie {\n" +
-                "    movie(\n" +
-                "        input: {\n" +
-                "            name: \"Avengers: Infinity War\"\n" +
-                "            category: ACTION\n" +
-                "            tags: [\"mavel\"]\n" +
-                "            score: 91\n" +
-                "        }\n" +
-                "    ) {\n" +
-                "        id\n" +
-                "        name\n" +
-                "        category\n" +
-                "        score\n" +
-                "        tags\n" +
-                "        createdBy\n" +
-                "        createdAt\n" +
-                "        modifiedBy\n" +
-                "        modifiedAt\n" +
-                "    }\n" +
-                "}";
+        String query = """
+                mutation Movie {
+                    movie(
+                        input: {
+                            name: "Avengers: Infinity War"
+                            category: ACTION
+                            tags: ["mavel"]
+                            score: 91
+                        }
+                    ) {
+                        id
+                        name
+                        category
+                        score
+                        tags
+                        createdBy
+                        createdAt
+                        modifiedBy
+                        modifiedAt
+                    }
+                }
+                """;
 
         tester.document(query)
                 .execute()
