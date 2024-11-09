@@ -7,6 +7,7 @@ import com.example.demo.security.BasicAuthenticationProvider;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
+import org.springframework.boot.autoconfigure.graphql.GraphQlProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -32,6 +33,8 @@ public class SecurityConfiguration {
     public static final String ANONYMOUS_REALM = "anonymous";
     @Autowired
     APIUserDetailsService userDetailsService;
+    @Autowired
+    GraphQlProperties graphql;
 
     @Bean
     public InitializingBean initializingBean() {
@@ -81,13 +84,12 @@ public class SecurityConfiguration {
         authenticationProvider.setPasswordEncoder(passwordEncoder());
 
         http
-                //.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .cors(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(Customizer.withDefaults())
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll()
-                        .requestMatchers("/graphiql").permitAll()
+                        .requestMatchers(graphql.getGraphiql().getPath()).permitAll()
                         .requestMatchers("/users/*/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .authenticationProvider(authenticationProvider)
