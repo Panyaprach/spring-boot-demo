@@ -51,6 +51,9 @@ public class MovieQLController {
 
     @SubscriptionMapping("newMovie")
     public Flux<Movie> subscribe(@Argument MovieCriteria criteria) {
+        if (criteria == null)
+            criteria = new MovieCriteria();
+
         List<Movie> movies = service.findAll(criteria);
 
         return Flux.fromIterable(movies)
