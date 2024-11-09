@@ -2,7 +2,10 @@ package com.example.demo.servlet;
 
 import com.example.demo.exception.ExceptionDescriptor;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.bucket4j.*;
+import io.github.bucket4j.Bandwidth;
+import io.github.bucket4j.Bucket;
+import io.github.bucket4j.ConsumptionProbe;
+import io.github.bucket4j.Refill;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +27,8 @@ public class RateLimitInterceptor implements HandlerInterceptor {
     private ObjectMapper mapper;
 
     public RateLimitInterceptor() {
-        Bandwidth limit = Bandwidth.classic(5, Refill.greedy(5, Duration.ofMinutes(1)));
-        this.bucket = Bucket4j.builder()
+        Bandwidth limit = Bandwidth.classic(200, Refill.greedy(10, Duration.ofSeconds(1)));
+        this.bucket = Bucket.builder()
                 .addLimit(limit)
                 .build();
     }
